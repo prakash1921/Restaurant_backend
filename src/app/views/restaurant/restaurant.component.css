@@ -1,0 +1,10 @@
+table{
+    border: 1px solid;
+    text-align: center;
+}
+
+tbody td,
+thead th,
+tfoot td{
+    border-right: 1px solid #DCDCDC !important;
+}

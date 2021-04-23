@@ -1,0 +1,80 @@
+<div class="container mt-5" *ngIf='response.length!=0'>
+    <h1 style="text-align: center;">Update Restaurant</h1>
+    <form class="row " [(formGroup)]="myForm">
+        <div class="card  p-0">
+            <div class="card-header">
+                Update Restaurant
+            </div>
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label class="form-label"> ID</label>
+                        <input type="number" class="form-control" autocomplete="off" formControlName="Rid" name="Rid"
+                            id="Rid" (focusout)="unique()" (focusin)='changevalue()' disabled="true">
+                        <span *ngIf="f.Rid.errors && f.Rid.dirty" class="text-danger">
+                            Enter six digits number and it is Required.
+                        </span>
+                        <span *ngIf="duplicatedata" class="text-danger">
+                            ID already exist.
+                        </span>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label"> Password</label>
+                        <input type="password" autocomplete="off" class="form-control" formControlName="password"
+                            name="password" id="password">
+                        <span *ngIf="f.password.errors && f.password.dirty" style="color: red;">
+                            Password is required.</span>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label"> Name</label>
+                        <input type="text" class="form-control" autocomplete="off" formControlName="name" name="name"
+                            id="name" (focusout)="unique()">
+                        <span *ngIf="f.name.errors && f.name.dirty" style="color: red;">
+                            Name is required.</span>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Location</label>
+                        <input type="text" class="form-control" autocomplete="off" formControlName="location">
+                        <span *ngIf="f.location.errors && f.location.dirty" style="color: red;">
+                            Location should contain alphabetnd it is required.</span>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card p-0 mt-3">
+            <div class="card-header">
+                ADDRESS
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="inputAddress" class="form-label">Address</label>
+                        <input type="text" class="form-control" autocomplete="off" id="inputAddress"
+                            placeholder="Enter address" formControlName="address">
+                        <span *ngIf="f.address.errors && f.address.dirty" style="color: red;">
+                            Address is required.</span>
+                    </div>
+                    <div class="col-md-2 mt-4">
+                        <label for="inputZip" class="form-label">Zip</label>
+                        <input type="number" class="form-control" autocomplete="off" id="inputZip" formControlName="zip">
+                        <span *ngIf="f.zip.errors && f.zip.dirty" style="color: red;">Enter six digits number.</span>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="cuisines" class="form-label"> Cuisines</label>
+                        <input type="text" class="form-control" autocomplete="off" id="cuisines"
+                            placeholder="Enter cuisines" formControlName="cuisines">
+                        <span *ngIf="f.cuisines.errors && f.cuisines.dirty" style="color: red;">Cuisines is
+                            required.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 mt-3 " style="text-align:center;">
+            <button [disabled]="!myForm.valid" type="submit" class="btn btn-primary"
+                (click)="onUpdate()">Update</button>
+        </div>
+    </form>
+
+</div>

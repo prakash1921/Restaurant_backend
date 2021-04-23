@@ -1,0 +1,74 @@
+<div class="container">
+  <h1 style="text-align: center;">Restaurant List</h1>
+  <div class="row" *ngIf='List.length!=0'>
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-3" *ngIf='locationdata.length!=0'>
+              <form [formGroup]="search">
+                <div class="form-group">
+                  <label for='location'>Select location</label>
+                  <select id="location" class="form-select" formControlName="location"
+                    (change)='getList()' style="text-transform: uppercase;">
+                    <!-- <option value=" " selected disable>Select location</option> -->
+                    <option value="ALL" >ALL</option>
+
+                    <option *ngFor="let item of locationdata.data" [value]="item" >{{item}}</option>
+
+                  </select>
+
+                </div>
+              </form>
+            </div>
+
+
+            <div class="offset-5 col-md-3 mt-4">
+              <button type="button" (click)="add()" style="float: right;" class="btn btn-success">
+                Add Restaurant
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body" style="overflow-x:auto;">
+          <table class="table table-responsive-sm table-hover table-outline mb-0">
+            <thead class="thead-light">
+              <tr>
+                <th>ID</th>
+                <th> Name</th>
+                <th>Location</th>
+
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let item of List.data | paginate: {itemsPerPage: size, currentPage: p ,totalItems:List.totalCount}">
+                <td>
+                  {{item.Rid}}
+                </td>
+                <td>
+                  {{item.name}}
+                </td>
+                <td>
+                  {{item.location}}
+                </td>
+                <td>
+                  <button type="button" (click)="$event.stopPropagation();detailsPage(item._id)"
+                    class="btn btn-success">
+                    Edit
+                  </button>
+                  <button style="margin-left: 15px;" type="button" (click)="$event.stopPropagation();delete(item._id)"
+                    class="btn btn-danger">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <pagination-controls style="float:right" (pageChange)="paginate($event)"></pagination-controls>
+    </div>
+  </div>
+</div>
