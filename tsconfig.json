@@ -18,10 +18,14 @@
       "es2018",
       "dom"
     ],
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": [
+      "googlemaps"
+  ]
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
-  }
+  },
+  
 }

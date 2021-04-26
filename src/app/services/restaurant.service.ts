@@ -13,17 +13,31 @@ export class RestaurantService {
   constructor(public http: HttpClient) { }
 
   //get List by  LocationName 
-  getList(location) {
-    return this.http.get(this.url + 'restaurant/List?location=' + location)
+  getListbyname(locationName,rt,menuname) {
+    return this.http.get(this.url + 'restaurant/List?locationName=' + locationName+'&rt='+rt+'&menuname='+menuname)
   }
+  getListbylatlng(locationName,lat,lng,rt,menuname) {
+    return this.http.get(this.url + 'restaurant/List?locationName=' + locationName+'&lat='+lat+'&lng='+lng+'&rt='+rt+'&menuname='+menuname)
+  }
+  
   //get List of restaurant 
   getAllLocation() {
     return this.http.get(this.url + 'restaurant/getAllLocation')
 
   }
   //get List of restaurant  by pagination
-  getpaginatedata(page, size, location) {
-    return this.http.get<any>(this.url + 'restaurant/pagination?pageNo=' + page + '&size=' + size + '&location=' + location)
+  // getpaginatedata(page, size, location) {
+  //   return this.http.get<any>(this.url + 'restaurant/pagination?pageNo=' + page + '&size=' + size + '&location=' + location)
+  // }
+
+  getlocationbycoodinates(lat,lng,locationName,rt,menuname){
+    if(menuname==''){
+      return this.http.get<any>(this.url + 'restaurant/getratbylatlng'+'/'+rt+'/'+undefined+'/'+lat+'/' +lng +'/'+locationName)
+
+    }else{
+      return this.http.get<any>(this.url + 'restaurant/getlocationbycoodinates/'+lat+'/' +lng +'/'+locationName+'/'+rt+'/'+menuname)
+
+    }
   }
   //Add resturant 
   addResturant(body) {
@@ -50,4 +64,23 @@ export class RestaurantService {
     return this.http.get<any>(this.url + 'restaurant/uniquecheck?id=' + id)
 
   }
+  deletemenu(id,_id){
+    return this.http.get<any>(this.url + 'restaurant/deletemenu?id=' + id+'&nid='+_id)
+ 
+  }
+
+
+  getratbylatlng(rt,locationName,lat,lng,menuname){
+    if(menuname==''){
+      return this.http.get<any>(this.url + 'restaurant/getratbylatlng'+'/'+rt+'/'+undefined+'/'+lat+'/' +lng +'/'+locationName)
+
+    }else{
+      return this.http.get<any>(this.url + 'restaurant/getratbylatlng'+'/'+rt+'/'+menuname+'/'+lat+'/' +lng +'/'+locationName)
+
+    }
+  }
+  // getratbylocationname(rt,locationName){
+  //   return this.http.get<any>(this.url + 'restaurant/getratorbylocationname?id='+rt+'&locationName='+locationName)
+  // }
+  
 }

@@ -1,3 +1,103 @@
+<div class="container mt-5">
+  <div class="card">
+  <div class="card-header">
+    Select Filters
+</div>
+  <div class="card-body" >
+    <div class="row">
+      <!-- <div class="col-md-12">
+        <label>Select Filters</label>
+        </div> -->
+    </div>
+    <div class="row">
+
+        <div class="col-md-6">
+          <label style="    font-size: 25px;">Select Currect Location(From)</label>
+  <agm-map 
+  [latitude]="lat"
+  [longitude]="lng"
+  [zoom]="zoom"
+  [disableDefaultUI]="false"
+  (mapClick)="mapClicked($event)" 
+  [zoomControl]="true"
+  >
+  <!-- [zoom]="zoom"
+  [disableDefaultUI]="true"
+  [zoomControl]="true"
+  [zoomControlOptions] = "{position: zoomPosition}"] -->
+  <agm-marker 
+      *ngFor="let m of markers; let i = index"
+      (markerClick)="clickedMarker(m.label, i)"
+      [latitude]="m.lat"
+      [longitude]="m.lng"
+      [label]="m.label"
+      [markerDraggable]="m.draggable"
+      (dragEnd)="markerDragEnd(m, $event)">
+       </agm-marker>
+    <agm-info-window> 
+      <strong>InfoWindow content</strong>
+    </agm-info-window>
+    
+  
+</agm-map>
+</div>
+<div class="col-md-6" *ngIf='locationdata.length!=0'>
+  <div class="row">
+    <form [formGroup]="search">
+    <div class="col-md-6">
+  
+    <div class="form-group">
+      <label for='location'>Select location(To)</label>
+      <select id="location" class="form-select" formControlName="location"
+        (change)='getList()' style="text-transform: uppercase;">
+        <!-- <option value=" " selected disable>Select location</option> -->
+        <option value="ALL" >ALL</option>
+
+        <option *ngFor="let item of locationdata.data" [value]="item" >{{item}}</option>
+
+      </select>
+
+    </div>
+  </div>
+  <div class="col-md-6">
+  
+    <div class="form-group">
+      <label for='rating'>Select Rate</label>
+      <select id="rating" class="form-select" formControlName="rating"
+        (change)='getrate()' style="text-transform: uppercase;">
+        <!-- <option value=" " selected disable>Select location</option> -->
+        <option value="ALL" >ALL</option>
+        <option value="1" >1</option>
+        <option value="2" >2</option>
+        <option value="3" >3</option>
+        <option value="4" >4</option>
+        <option value="5" >5</option>
+
+       
+      </select>
+
+    </div>
+  </div>
+  <div class="col-md-6">
+  
+    <div class="form-group">
+      <label for='menuname'>Enter Menu item Name</label>
+      <input type='menuname' formControlName="menuname"  (change)='getcost($event.target.value)'>
+      <!-- <select id="rating" class="form-select" formControlName="rating"
+        (change)='getcost()' style="text-transform: uppercase;">
+        <option value="ALL" >ALL</option>
+      </select> -->
+
+    </div>
+  </div>
+  </form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
 <div class="container">
   <h1 style="text-align: center;">Restaurant List</h1>
   <div class="row" *ngIf='List.length!=0'>
@@ -5,13 +105,12 @@
       <div class="card">
         <div class="card-header">
           <div class="row">
-            <div class="col-md-3" *ngIf='locationdata.length!=0'>
+            <!-- <div class="col-md-3" *ngIf='locationdata.length!=0'>
               <form [formGroup]="search">
                 <div class="form-group">
                   <label for='location'>Select location</label>
                   <select id="location" class="form-select" formControlName="location"
                     (change)='getList()' style="text-transform: uppercase;">
-                    <!-- <option value=" " selected disable>Select location</option> -->
                     <option value="ALL" >ALL</option>
 
                     <option *ngFor="let item of locationdata.data" [value]="item" >{{item}}</option>
@@ -21,9 +120,11 @@
                 </div>
               </form>
             </div>
+ -->
 
+            <!-- <div class="offset-5 col-md-3 mt-4"> -->
+            <div class="col-md-12 mt-1">
 
-            <div class="offset-5 col-md-3 mt-4">
               <button type="button" (click)="add()" style="float: right;" class="btn btn-success">
                 Add Restaurant
               </button>
@@ -37,13 +138,14 @@
                 <th>ID</th>
                 <th> Name</th>
                 <th>Location</th>
-
+                <th>Menu</th>
+                <th>Rate</th>
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody style="    text-align: -webkit-center !important;">
               <tr
-                *ngFor="let item of List.data | paginate: {itemsPerPage: size, currentPage: p ,totalItems:List.totalCount}">
+                *ngFor="let item of List.data | paginate: {itemsPerPage: size, currentPage: p ,totalItems:List.data.length}">
                 <td>
                   {{item.Rid}}
                 </td>
@@ -51,7 +153,26 @@
                   {{item.name}}
                 </td>
                 <td>
-                  {{item.location}}
+                  {{item.locationName}}
+                </td>
+                <td >
+                  <ng-container><table style="text-align: center;">
+                    <tr>
+                      <th style="border:1px solid">Menuname</th>
+                      <th style="border:1px solid">Cost</th>
+                    </tr>
+                    <tr *ngFor="let menu of item.menuList" style="border: 1px solid;">
+                      
+                        <td style="border-right: 1px solid black!important;">{{menu.menuname}}</td>
+                        <td style="border-right: 1px solid black!important;">{{menu.cost}}</td>
+                    </tr>
+                  </table></ng-container>
+                  
+
+                </td>
+                <td>
+                  <rating [(ngModel)]="item.rating" [max]="item.rating" style="font-size: 20px;">
+                  </rating>
                 </td>
                 <td>
                   <button type="button" (click)="$event.stopPropagation();detailsPage(item._id)"
@@ -68,7 +189,7 @@
           </table>
         </div>
       </div>
-      <pagination-controls style="float:right" (pageChange)="paginate($event)"></pagination-controls>
+      <pagination-controls style="float:right" (pageChange)="p=$event"></pagination-controls>
     </div>
   </div>
 </div>

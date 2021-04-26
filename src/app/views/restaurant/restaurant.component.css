@@ -8,3 +8,19 @@ thead th,
 tfoot td{
     border-right: 1px solid #DCDCDC !important;
 }
+agm-map {
+  height: 300px;
+}
+
+
+* {
+  font-family: Lato;
+}
+
+a {
+  color: darkblue;
+}
+agm-map-container-inner{
+    position: relative;
+    overflow: none;
+}
